@@ -3,7 +3,10 @@ import '../../assets/svg/users.js';
 import '../../assets/svg/plus.js';
 import {getLanguage, setLanguage} from '../../store/actions.js';
 import {connect} from '../../store/connect.js';
-import {getLocalizedData} from '../../service/localization/index.js';
+import {
+  getLocalizedData,
+  getSupportedLanguages,
+} from '../../service/localization/index.js';
 
 export class NavBar extends connect(LitElement) {
   static properties = {
@@ -89,20 +92,15 @@ export class NavBar extends connect(LitElement) {
           >${getLocalizedData('add_new')}</a
         >
         <div class="local-buttons-parent">
-          <a
-            @click=${() => {
-              setLanguage('tr');
-            }}
-            class="${getLanguage() === 'tr' ? 'active' : 'inactive'}"
-            >TR</a
-          >
-          <a
-            @click=${() => {
-              setLanguage('en');
-            }}
-            class="${getLanguage() === 'en' ? 'active' : 'inactive'}"
-            >EN</a
-          >
+          ${getSupportedLanguages().map(
+            (lang) => html` <a
+              @click=${() => {
+                setLanguage(lang);
+              }}
+              class="${getLanguage() === lang ? 'active' : 'inactive'}"
+              >${lang.toUpperCase()}</a
+            >`
+          )}
         </div>
       </div>
     </div>`;
