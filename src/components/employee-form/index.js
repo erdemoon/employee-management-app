@@ -8,6 +8,8 @@ import {connect} from '../../store/connect';
 
 export class EmployeeForm extends connect(LitElement) {
   formRef = createRef();
+  phoneRef = createRef();
+  emailRef = createRef();
   dateBirthRef = createRef();
   dateEmploymentRef = createRef();
 
@@ -131,9 +133,9 @@ export class EmployeeForm extends connect(LitElement) {
 
   onSubmit(e) {
     e.preventDefault();
-    const form = e.target;
-    const phoneInput = form.querySelector('input[name="phone"]');
-    const emailInput = form.querySelector('input[name="email"]');
+    const form = this.formRef.value;
+    const phoneInput = this.phoneRef.value;
+    const emailInput = this.emailRef.value;
 
     if (!/^\d{10}$/.test(phoneInput.value)) {
       phoneInput.setCustomValidity('Phone number must be exactly 10 digits!');
@@ -227,6 +229,7 @@ export class EmployeeForm extends connect(LitElement) {
                 inputmode="numeric"
                 title="Enter 10 digits phone number without +(90)"
                 @input=${(e) => e.target.setCustomValidity('')}
+                ${ref(this.phoneRef)}
               />
             </label>
           </div>
@@ -237,6 +240,7 @@ export class EmployeeForm extends connect(LitElement) {
               type="email"
               required
               @input=${(e) => e.target.setCustomValidity('')}
+              ${ref(this.emailRef)}
             />
           </div>
           <div class="form-input-parent">
