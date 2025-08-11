@@ -1,4 +1,5 @@
 import {NavBar} from '../../src/components/nav-bar/index.js';
+import {getSupportedLanguages} from '../../src/service/localization/index.js';
 import {fixture, assert} from '@open-wc/testing';
 import {html} from 'lit/static-html.js';
 
@@ -39,20 +40,20 @@ suite('nav-bar', () => {
     );
   });
 
-  test('renders language buttons', async () => {
+  test('renders language switcher', async () => {
     const el = await fixture(html`<nav-bar></nav-bar>`);
     await el.updateComplete;
 
     const languageButtons = el.shadowRoot.querySelectorAll(
       '.local-buttons-parent a'
     );
-    assert.equal(languageButtons.length, 2);
+    const supportedLanguages = getSupportedLanguages();
 
-    const trButton = languageButtons[0];
-    const enButton = languageButtons[1];
+    assert.equal(languageButtons.length, supportedLanguages.length);
 
-    assert.equal(trButton.textContent, 'TR');
-    assert.equal(enButton.textContent, 'EN');
+    supportedLanguages.forEach((lang, idx) => {
+      assert.equal(languageButtons[idx].textContent, lang.toUpperCase());
+    });
   });
 
   test('sets current path from window location', async () => {
