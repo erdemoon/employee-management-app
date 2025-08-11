@@ -3,6 +3,16 @@ import '../../assets/svg/left';
 import '../../assets/svg/right';
 
 export class Pagination extends LitElement {
+  static properties = {
+    currentPage: {type: Number},
+    totalPages: {type: Number},
+    onPageChange: {type: Function},
+  };
+
+  constructor() {
+    super();
+  }
+
   static styles = css`
     .pagination-parent {
       display: flex;
@@ -29,16 +39,6 @@ export class Pagination extends LitElement {
       background-color: rgb(255, 98, 0);
     }
   `;
-
-  static properties = {
-    currentPage: {type: Number},
-    totalPages: {type: Number},
-    onPageChange: {type: Function},
-  };
-
-  constructor() {
-    super();
-  }
 
   handleNextPageClick() {
     if (this.onPageChange && this.currentPage < this.totalPages) {

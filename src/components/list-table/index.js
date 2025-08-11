@@ -11,6 +11,12 @@ export class ListTable extends LitElement {
     selectedUids: {type: Array},
   };
 
+  constructor() {
+    super();
+    this.data = [];
+    this.selectedUids = [];
+  }
+
   static styles = css`
     .list-table-parent {
       overflow: scroll;
@@ -42,10 +48,13 @@ export class ListTable extends LitElement {
     }
   `;
 
-  constructor() {
-    super();
-    this.data = [];
-    this.selectedUids = [];
+  updated(changedProps) {
+    if (changedProps.has('data')) {
+      const validUids = this.data.map((el) => el.uid);
+      this.selectedUids = this.selectedUids.filter((uid) =>
+        validUids.includes(uid)
+      );
+    }
   }
 
   handleSelectAll(e) {
@@ -76,15 +85,6 @@ export class ListTable extends LitElement {
         composed: true,
       })
     );
-  }
-
-  updated(changedProps) {
-    if (changedProps.has('data')) {
-      const validUids = this.data.map((el) => el.uid);
-      this.selectedUids = this.selectedUids.filter((uid) =>
-        validUids.includes(uid)
-      );
-    }
   }
 
   render() {

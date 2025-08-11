@@ -8,6 +8,21 @@ export class GlobalPopup extends LitElement {
     data: {type: Object},
   };
 
+  constructor() {
+    super();
+    this.open = false;
+    this.data = {};
+
+    window.addEventListener('show-popup', (e) => {
+      this.data = e.detail.data;
+      this.open = true;
+    });
+
+    window.addEventListener('hide-popup', () => {
+      this.open = false;
+    });
+  }
+
   static styles = css`
     .popup-parent {
       position: fixed;
@@ -72,21 +87,6 @@ export class GlobalPopup extends LitElement {
       cursor: pointer;
     }
   `;
-
-  constructor() {
-    super();
-    this.open = false;
-    this.data = {};
-
-    window.addEventListener('show-popup', (e) => {
-      this.data = e.detail.data;
-      this.open = true;
-    });
-
-    window.addEventListener('hide-popup', () => {
-      this.open = false;
-    });
-  }
 
   render() {
     return html`

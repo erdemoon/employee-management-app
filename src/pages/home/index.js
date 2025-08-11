@@ -65,6 +65,22 @@ export class PageHome extends connect(LitElement) {
     }
   `;
 
+  updated(changedProps) {
+    if (changedProps.has('currentData')) {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    //* TODO: This triggers a warning in the console about state update, find a solution.
+    if (
+      changedProps.has('currentData') &&
+      !this.currentData &&
+      this.chunkArray.length > 0
+    ) {
+      this.view.page = this.view.page - 1;
+      this.currentData = this.chunkData[this.view.page];
+    }
+  }
+
   filterEmployees(employees) {
     if (!this.searchTerm) return employees;
     const term = this.searchTerm.toLowerCase();
@@ -91,22 +107,6 @@ export class PageHome extends connect(LitElement) {
         },
       })
     );
-  }
-
-  updated(changedProps) {
-    if (changedProps.has('currentData')) {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-
-    //* TODO: This triggers a warning in the console about state update, find a solution.
-    if (
-      changedProps.has('currentData') &&
-      !this.currentData &&
-      this.chunkArray.length > 0
-    ) {
-      this.view.page = this.view.page - 1;
-      this.currentData = this.chunkData[this.view.page];
-    }
   }
 
   chunkArray(arr, chunkSize) {

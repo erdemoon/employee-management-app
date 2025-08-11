@@ -8,6 +8,11 @@ export class ListGrid extends LitElement {
     data: {type: Array},
   };
 
+  constructor() {
+    super();
+    this.data = [];
+  }
+
   static styles = css`
     .grid-parent {
       display: grid;
@@ -69,11 +74,6 @@ export class ListGrid extends LitElement {
       gap: 1rem;
     }
   `;
-
-  constructor() {
-    super();
-    this.data = [];
-  }
 
   render() {
     return html` <div class="grid-parent">

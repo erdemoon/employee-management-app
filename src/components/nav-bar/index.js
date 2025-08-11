@@ -6,6 +6,19 @@ import {connect} from '../../store/connect.js';
 import {getLocalizedData} from '../../service/localization/index.js';
 
 export class NavBar extends connect(LitElement) {
+  static properties = {
+    currentPath: {type: String},
+  };
+
+  constructor() {
+    super();
+    this.currentPath = window.location.pathname;
+
+    window.addEventListener('vaadin-router-location-changed', (e) => {
+      this.currentPath = e.detail.location.pathname;
+    });
+  }
+
   static styles = css`
     .nav-bar-parent {
       height: 4rem;
@@ -43,19 +56,6 @@ export class NavBar extends connect(LitElement) {
       cursor: pointer;
     }
   `;
-
-  static properties = {
-    currentPath: {type: String},
-  };
-
-  constructor() {
-    super();
-    this.currentPath = window.location.pathname;
-
-    window.addEventListener('vaadin-router-location-changed', (e) => {
-      this.currentPath = e.detail.location.pathname;
-    });
-  }
 
   render() {
     return html`<div class="nav-bar-parent">

@@ -15,36 +15,6 @@ export class EmployeeForm extends connect(LitElement) {
     employee: {type: Object},
   };
 
-  convertToInputDate(dateStr) {
-    if (!dateStr) return '';
-    const [day, month, year] = dateStr.split('/');
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-  }
-
-  firstUpdated() {
-    const today = new Date().toISOString().split('T')[0];
-    this.dateBirthRef.value.max = today;
-    this.dateEmploymentRef.value.max = today;
-
-    if (this.employeeId) {
-      const employee = getEmployeeById(this.employeeId);
-      if (employee) {
-        this.formRef.value.firstName.value = employee.firstName;
-        this.formRef.value.lastName.value = employee.lastName;
-        this.formRef.value.dateOfEmployment.value = this.convertToInputDate(
-          employee.dateOfEmployment
-        );
-        this.formRef.value.dateOfBirth.value = this.convertToInputDate(
-          employee.dateOfBirth
-        );
-        this.formRef.value.phone.value = employee.phone.replace('+(90)', '');
-        this.formRef.value.email.value = employee.email;
-        this.formRef.value.department.value = employee.department;
-        this.formRef.value.position.value = employee.position;
-      }
-    }
-  }
-
   static styles = css`
     form {
       display: grid;
@@ -122,6 +92,36 @@ export class EmployeeForm extends connect(LitElement) {
       padding: 4px 6px;
     }
   `;
+
+  firstUpdated() {
+    const today = new Date().toISOString().split('T')[0];
+    this.dateBirthRef.value.max = today;
+    this.dateEmploymentRef.value.max = today;
+
+    if (this.employeeId) {
+      const employee = getEmployeeById(this.employeeId);
+      if (employee) {
+        this.formRef.value.firstName.value = employee.firstName;
+        this.formRef.value.lastName.value = employee.lastName;
+        this.formRef.value.dateOfEmployment.value = this.convertToInputDate(
+          employee.dateOfEmployment
+        );
+        this.formRef.value.dateOfBirth.value = this.convertToInputDate(
+          employee.dateOfBirth
+        );
+        this.formRef.value.phone.value = employee.phone.replace('+(90)', '');
+        this.formRef.value.email.value = employee.email;
+        this.formRef.value.department.value = employee.department;
+        this.formRef.value.position.value = employee.position;
+      }
+    }
+  }
+
+  convertToInputDate(dateStr) {
+    if (!dateStr) return '';
+    const [day, month, year] = dateStr.split('/');
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
 
   formatDate(dateStr) {
     if (!dateStr) return '';
