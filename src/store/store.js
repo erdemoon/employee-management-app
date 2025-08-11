@@ -1,4 +1,5 @@
 import {MockData} from '../mock/data';
+import {getSupportedLanguages} from '../service/localization';
 
 class Store {
   constructor(initialState) {
@@ -24,7 +25,12 @@ class Store {
   }
 }
 
+const browserLang = navigator.language.slice(0, 2);
+const language = getSupportedLanguages().includes(browserLang)
+  ? browserLang
+  : 'en';
+
 export const store = new Store({
   employees: MockData,
-  language: navigator.language === 'en-US' ? 'en' : navigator.language,
+  language: language,
 });
